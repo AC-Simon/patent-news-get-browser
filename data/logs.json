@@ -1,0 +1,185 @@
+[
+  {
+    "source": "汽车新闻网",
+    "status": "failed",
+    "articles_found": 0,
+    "articles_saved": 0,
+    "error_message": "browserType.launch: Executable doesn't exist at /Users/simon/Library/Caches/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-mac-arm64/chrome-headless-shell\n╔═════════════════════════════════════════════════════════════════════════╗\n║ Looks like Playwright Test or Playwright was just installed or updated. ║\n║ Please run the following command to download new browsers:              ║\n║                                                                         ║\n║     npx playwright install                                              ║\n║                                                                         ║\n║ <3 Playwright Team                                                      ║\n╚═════════════════════════════════════════════════════════════════════════╝",
+    "start_time": "2026-02-04",
+    "end_time": "2026-02-04",
+    "created_at": "2026-02-04"
+  },
+  {
+    "source": "一汽红旗官网",
+    "status": "failed",
+    "articles_found": 0,
+    "articles_saved": 0,
+    "error_message": "browserType.launch: Executable doesn't exist at /Users/simon/Library/Caches/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-mac-arm64/chrome-headless-shell\n╔═════════════════════════════════════════════════════════════════════════╗\n║ Looks like Playwright Test or Playwright was just installed or updated. ║\n║ Please run the following command to download new browsers:              ║\n║                                                                         ║\n║     npx playwright install                                              ║\n║                                                                         ║\n║ <3 Playwright Team                                                      ║\n╚═════════════════════════════════════════════════════════════════════════╝",
+    "start_time": "2026-02-04",
+    "end_time": "2026-02-04",
+    "created_at": "2026-02-04"
+  },
+  {
+    "source": "汽车新闻网",
+    "status": "success",
+    "articles_found": 0,
+    "articles_saved": 0,
+    "start_time": "2026-02-04",
+    "end_time": "2026-02-04",
+    "created_at": "2026-02-04"
+  },
+  {
+    "source": "一汽红旗官网",
+    "status": "success",
+    "articles_found": 0,
+    "articles_saved": 0,
+    "start_time": "2026-02-04",
+    "end_time": "2026-02-04",
+    "created_at": "2026-02-04"
+  },
+  {
+    "source": "汽车新闻网",
+    "status": "failed",
+    "articles_found": 0,
+    "articles_saved": 0,
+    "error_message": "browserContext.newPage: Target page, context or browser has been closed",
+    "start_time": "2026-02-06",
+    "end_time": "2026-02-06",
+    "created_at": "2026-02-06"
+  },
+  {
+    "source": "一汽红旗官网",
+    "status": "success",
+    "articles_found": 0,
+    "articles_saved": 0,
+    "start_time": "2026-02-06",
+    "end_time": "2026-02-06",
+    "created_at": "2026-02-06"
+  },
+  {
+    "source": "汽车新闻网",
+    "status": "success",
+    "articles_found": 5,
+    "articles_saved": 5,
+    "start_time": "2026-02-06",
+    "end_time": "2026-02-06",
+    "created_at": "2026-02-06"
+  },
+  {
+    "source": "一汽红旗官网",
+    "status": "success",
+    "articles_found": 0,
+    "articles_saved": 0,
+    "start_time": "2026-02-06",
+    "end_time": "2026-02-06",
+    "created_at": "2026-02-06"
+  },
+  {
+    "source": "中国一汽",
+    "status": "success",
+    "articles_found": 0,
+    "articles_saved": 0,
+    "start_time": "2026-02-06",
+    "end_time": "2026-02-06",
+    "created_at": "2026-02-06"
+  },
+  {
+    "source": "中国一汽",
+    "status": "success",
+    "articles_found": 0,
+    "articles_saved": 0,
+    "start_time": "2026-02-06",
+    "end_time": "2026-02-06",
+    "created_at": "2026-02-06"
+  },
+  {
+    "source": "中国一汽",
+    "status": "success",
+    "articles_found": 5,
+    "articles_saved": 5,
+    "start_time": "2026-02-06",
+    "end_time": "2026-02-06",
+    "created_at": "2026-02-06"
+  },
+  {
+    "source": "汽车新闻网",
+    "status": "success",
+    "articles_found": 0,
+    "articles_saved": 0,
+    "start_time": "2026-02-06",
+    "end_time": "2026-02-06",
+    "created_at": "2026-02-06"
+  },
+  {
+    "source": "汽车新闻网",
+    "status": "success",
+    "articles_found": 0,
+    "articles_saved": 0,
+    "start_time": "2026-02-06",
+    "end_time": "2026-02-06",
+    "created_at": "2026-02-06"
+  },
+  {
+    "source": "中国一汽",
+    "status": "success",
+    "articles_found": 5,
+    "articles_saved": 0,
+    "start_time": "2026-02-06",
+    "end_time": "2026-02-06",
+    "created_at": "2026-02-06"
+  },
+  {
+    "source": "汽车新闻网",
+    "status": "success",
+    "articles_found": 0,
+    "articles_saved": 0,
+    "start_time": "2026-02-06",
+    "end_time": "2026-02-06",
+    "created_at": "2026-02-06"
+  },
+  {
+    "source": "中国一汽",
+    "status": "success",
+    "articles_found": 5,
+    "articles_saved": 5,
+    "start_time": "2026-02-06",
+    "end_time": "2026-02-06",
+    "created_at": "2026-02-06"
+  },
+  {
+    "source": "中国一汽",
+    "status": "success",
+    "articles_found": 0,
+    "articles_saved": 0,
+    "start_time": "2026-02-06",
+    "end_time": "2026-02-06",
+    "created_at": "2026-02-06"
+  },
+  {
+    "source": "汽车新闻网",
+    "status": "success",
+    "articles_found": 0,
+    "articles_saved": 0,
+    "start_time": "2026-02-06",
+    "end_time": "2026-02-06",
+    "created_at": "2026-02-06"
+  },
+  {
+    "source": "汽车新闻网",
+    "status": "success",
+    "articles_found": 5,
+    "articles_saved": 5,
+    "start_time": "2026-02-06",
+    "end_time": "2026-02-06",
+    "created_at": "2026-02-06"
+  },
+  {
+    "source": "中国一汽",
+    "status": "success",
+    "articles_found": 5,
+    "articles_saved": 5,
+    "start_time": "2026-02-06",
+    "end_time": "2026-02-06",
+    "created_at": "2026-02-06"
+  }
+]

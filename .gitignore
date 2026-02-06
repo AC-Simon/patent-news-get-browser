@@ -1,0 +1,19 @@
+node_modules/
+dist/
+.env
+*.log
+.DS_Store
+coverage/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 保留配置文件示例
+config/websites/*.json
+!config/websites/.gitkeep
+
+# 日志文件
+logs/
+*.log
