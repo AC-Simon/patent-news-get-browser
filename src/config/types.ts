@@ -113,7 +113,7 @@ export interface PlaywrightConfig {
 
 // 完整的应用配置
 export interface AppConfig {
-  storageType: 'postgres' | 'json';
+  storageType: "postgres" | "json";
   database: DatabaseConfig;
   qwen: QwenConfig;
   crawler: CrawlerConfig;

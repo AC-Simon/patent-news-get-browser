@@ -1,8 +1,8 @@
-import * as cron from 'node-cron';
-import { CrawlerEngine } from '../crawler/engine';
-import { ArticleRepository, CrawlLogRepository } from '../database/repository';
-import { AIService } from '../ai/qwen';
-import configLoader from '../config/loader';
+import * as cron from "node-cron";
+import { CrawlerEngine } from "../crawler/engine";
+import { ArticleRepository, CrawlLogRepository } from "../database/repository";
+import { AIService } from "../ai/qwen";
+import configLoader from "../config/loader";
 
 /**
  * 调度器类
@@ -43,14 +43,14 @@ export class Scheduler {
     const startTime = new Date();
     let articlesFound = 0;
     let articlesSaved = 0;
-    let status = 'success';
+    let status = "success";
     let errorMessage: string | undefined;
 
     try {
-      console.log(`\n${'='.repeat(50)}`);
+      console.log(`\n${"=".repeat(50)}`);
       console.log(`开始爬取: ${config.name}`);
-      console.log(`时间: ${startTime.toLocaleString('zh-CN')}`);
-      console.log(`${'='.repeat(50)}\n`);
+      console.log(`时间: ${startTime.toLocaleString("zh-CN")}`);
+      console.log(`${"=".repeat(50)}\n`);
 
       // 创建爬虫引擎并爬取
       const engine = new CrawlerEngine(config);
@@ -72,8 +72,9 @@ export class Scheduler {
 
         // 为新文章生成AI摘要
         if (articlesSaved > 0) {
-          console.log('\n开始生成AI摘要...');
-          const summaryMap = await this.aiService.generateSummaryBatch(articles);
+          console.log("\n开始生成AI摘要...");
+          const summaryMap =
+            await this.aiService.generateSummaryBatch(articles);
 
           // 更新摘要到数据库
           for (const [url, summary] of summaryMap.entries()) {
@@ -83,10 +84,10 @@ export class Scheduler {
           console.log(`AI摘要生成完成: ${summaryMap.size} 篇`);
         }
       } else {
-        console.log('没有发现新文章');
+        console.log("没有发现新文章");
       }
     } catch (error: any) {
-      status = 'failed';
+      status = "failed";
       errorMessage = error.message;
       console.error(`爬取失败: ${websiteName}`, error);
     }
@@ -103,13 +104,15 @@ export class Scheduler {
       end_time: endTime,
     });
 
-    console.log(`\n${'='.repeat(50)}`);
+    console.log(`\n${"=".repeat(50)}`);
     console.log(`爬取完成: ${config.name}`);
     console.log(`状态: ${status}`);
     console.log(`发现文章: ${articlesFound} 篇`);
     console.log(`保存文章: ${articlesSaved} 篇`);
-    console.log(`耗时: ${((endTime.getTime() - startTime.getTime()) / 1000).toFixed(2)} 秒`);
-    console.log(`${'='.repeat(50)}\n`);
+    console.log(
+      `耗时: ${((endTime.getTime() - startTime.getTime()) / 1000).toFixed(2)} 秒`,
+    );
+    console.log(`${"=".repeat(50)}\n`);
   }
 
   /**
@@ -123,7 +126,7 @@ export class Scheduler {
       await this.crawlWebsite(config.name);
     }
 
-    console.log('所有网站爬取完成');
+    console.log("所有网站爬取完成");
   }
 
   /**
@@ -133,7 +136,7 @@ export class Scheduler {
     const appConfig = configLoader.getAppConfig();
 
     if (!appConfig.scheduler.enabled) {
-      console.log('定时任务未启用');
+      console.log("定时任务未启用");
       return;
     }
 
@@ -142,15 +145,20 @@ export class Scheduler {
 
     // 创建新的定时任务
     const task = cron.schedule(appConfig.scheduler.cronSchedule, async () => {
-      console.log('\n定时任务触发，开始爬取...');
+      console.log("\n定时任务触发，开始爬取...");
       await this.crawlAll();
-      console.log('定时任务执行完成\n');
+      console.log("定时任务执行完成\n");
     });
 
-    this.tasks.set('default', task);
+    this.tasks.set("default", task);
 
-    console.log(`定时任务已启动，执行计划: ${appConfig.scheduler.cronSchedule}`);
-    console.log('定时任务说明: ' + this.getCronDescription(appConfig.scheduler.cronSchedule));
+    console.log(
+      `定时任务已启动，执行计划: ${appConfig.scheduler.cronSchedule}`,
+    );
+    console.log(
+      "定时任务说明: " +
+        this.getCronDescription(appConfig.scheduler.cronSchedule),
+    );
   }
 
   /**
@@ -168,26 +176,44 @@ export class Scheduler {
    * 获取cron表达式说明
    */
   private getCronDescription(cronExpression: string): string {
-    const parts = cronExpression.split(' ');
+    const parts = cronExpression.split(" ");
     if (parts.length !== 5) {
-      return '无效的cron表达式';
+      return "无效的cron表达式";
     }
 
     const [minute, hour, dayOfMonth, month, dayOfWeek] = parts;
 
-    if (minute === '0' && hour === '8' && dayOfMonth === '*' && month === '*' && dayOfWeek === '*') {
-      return '每天早上8点执行';
+    if (
+      minute === "0" &&
+      hour === "8" &&
+      dayOfMonth === "*" &&
+      month === "*" &&
+      dayOfWeek === "*"
+    ) {
+      return "每天早上8点执行";
     }
 
-    if (minute === '0' && hour === '*/6' && dayOfMonth === '*' && month === '*' && dayOfWeek === '*') {
-      return '每6小时执行一次';
+    if (
+      minute === "0" &&
+      hour === "*/6" &&
+      dayOfMonth === "*" &&
+      month === "*" &&
+      dayOfWeek === "*"
+    ) {
+      return "每6小时执行一次";
     }
 
-    if (minute === '0' && hour === '0' && dayOfMonth === '*' && month === '*' && dayOfWeek === '*') {
-      return '每天凌晨0点执行';
+    if (
+      minute === "0" &&
+      hour === "0" &&
+      dayOfMonth === "*" &&
+      month === "*" &&
+      dayOfWeek === "*"
+    ) {
+      return "每天凌晨0点执行";
     }
 
-    return '自定义执行计划';
+    return "自定义执行计划";
   }
 
   /**

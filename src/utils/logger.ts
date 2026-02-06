@@ -1,7 +1,7 @@
-import * as winston from 'winston';
-import * as path from 'path';
-import * as fs from 'fs';
-import configLoader from '../config/loader';
+import * as winston from "winston";
+import * as path from "path";
+import * as fs from "fs";
+import configLoader from "../config/loader";
 
 /**
  * 日志工具类
@@ -26,7 +26,7 @@ export class Logger {
 
       // 创建日志格式
       const logFormat = winston.format.combine(
-        winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+        winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
         winston.format.errors({ stack: true }),
         winston.format.splat(),
         winston.format.printf(({ level, message, timestamp, ...metadata }) => {
@@ -38,7 +38,7 @@ export class Logger {
           }
 
           return msg;
-        })
+        }),
       );
 
       // 创建logger
@@ -50,7 +50,7 @@ export class Logger {
           new winston.transports.Console({
             format: winston.format.combine(
               winston.format.colorize(),
-              logFormat
+              logFormat,
             ),
           }),
           // 文件输出
@@ -61,8 +61,8 @@ export class Logger {
           }),
           // 错误日志单独文件
           new winston.transports.File({
-            filename: logFilePath.replace('.log', '.error.log'),
-            level: 'error',
+            filename: logFilePath.replace(".log", ".error.log"),
+            level: "error",
             maxsize: 10485760,
             maxFiles: 5,
           }),

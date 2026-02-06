@@ -1,7 +1,7 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import * as dotenv from 'dotenv';
-import { AppConfig, WebsiteConfig } from './types';
+import * as fs from "fs";
+import * as path from "path";
+import * as dotenv from "dotenv";
+import { AppConfig, WebsiteConfig } from "./types";
 
 // 加载环境变量
 dotenv.config();
@@ -33,37 +33,40 @@ export class ConfigLoader {
    */
   private loadAppConfig(): AppConfig {
     return {
-      storageType: (process.env.STORAGE_TYPE as 'postgres' | 'json') || 'postgres',
+      storageType:
+        (process.env.STORAGE_TYPE as "postgres" | "json") || "postgres",
       database: {
-        host: process.env.DB_HOST || 'localhost',
-        port: parseInt(process.env.DB_PORT || '5432'),
-        database: process.env.DB_NAME || 'news_crawler',
-        user: process.env.DB_USER || 'postgres',
-        password: process.env.DB_PASSWORD || '',
+        host: process.env.DB_HOST || "localhost",
+        port: parseInt(process.env.DB_PORT || "5432"),
+        database: process.env.DB_NAME || "news_crawler",
+        user: process.env.DB_USER || "postgres",
+        password: process.env.DB_PASSWORD || "",
       },
       qwen: {
-        apiKey: process.env.QWEN_API_KEY || '',
-        apiUrl: process.env.QWEN_API_URL || 'https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation',
-        model: process.env.QWEN_MODEL || 'qwen-flash',
+        apiKey: process.env.QWEN_API_KEY || "",
+        apiUrl:
+          process.env.QWEN_API_URL ||
+          "https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation",
+        model: process.env.QWEN_MODEL || "qwen-flash",
       },
       crawler: {
-        interval: parseInt(process.env.CRAWL_INTERVAL || '2000'),
-        timeout: parseInt(process.env.REQUEST_TIMEOUT || '30000'),
-        maxRetries: parseInt(process.env.MAX_RETRIES || '3'),
-        concurrent: parseInt(process.env.CONCURRENT_CRAWLERS || '3'),
+        interval: parseInt(process.env.CRAWL_INTERVAL || "2000"),
+        timeout: parseInt(process.env.REQUEST_TIMEOUT || "30000"),
+        maxRetries: parseInt(process.env.MAX_RETRIES || "3"),
+        concurrent: parseInt(process.env.CONCURRENT_CRAWLERS || "3"),
       },
       log: {
-        level: process.env.LOG_LEVEL || 'info',
-        filePath: process.env.LOG_FILE_PATH || 'logs/crawler.log',
+        level: process.env.LOG_LEVEL || "info",
+        filePath: process.env.LOG_FILE_PATH || "logs/crawler.log",
       },
       scheduler: {
-        enabled: process.env.ENABLE_SCHEDULER === 'true',
-        cronSchedule: process.env.CRON_SCHEDULE || '0 8 * * *',
+        enabled: process.env.ENABLE_SCHEDULER === "true",
+        cronSchedule: process.env.CRON_SCHEDULE || "0 8 * * *",
       },
       playwright: {
-        headless: process.env.HEADLESS !== 'false',
-        viewportWidth: parseInt(process.env.BROWSER_VIEWPORT_WIDTH || '1920'),
-        viewportHeight: parseInt(process.env.BROWSER_VIEWPORT_HEIGHT || '1080'),
+        headless: process.env.HEADLESS !== "false",
+        viewportWidth: parseInt(process.env.BROWSER_VIEWPORT_WIDTH || "1920"),
+        viewportHeight: parseInt(process.env.BROWSER_VIEWPORT_HEIGHT || "1080"),
       },
     };
   }
@@ -79,23 +82,30 @@ export class ConfigLoader {
    * 加载所有网站配置文件
    */
   public loadWebsiteConfigs(): Map<string, WebsiteConfig> {
-    const configDir = path.join(process.cwd(), 'config', 'websites');
+    const configDir = path.join(process.cwd(), "config", "websites");
 
     if (!fs.existsSync(configDir)) {
       console.warn(`网站配置目录不存在: ${configDir}`);
       return this.websiteConfigs;
     }
 
-    const files = fs.readdirSync(configDir).filter(file => file.endsWith('.json'));
+    const files = fs
+      .readdirSync(configDir)
+      .filter((file) => file.endsWith(".json"));
 
     for (const file of files) {
       try {
         const filePath = path.join(configDir, file);
-        const content = fs.readFileSync(filePath, 'utf-8');
+        const content = fs.readFileSync(filePath, "utf-8");
         const config: WebsiteConfig = JSON.parse(content);
 
         // 验证必要字段
-        if (!config.name || !config.url || !config.listPage || !config.detailPage) {
+        if (
+          !config.name ||
+          !config.url ||
+          !config.listPage ||
+          !config.detailPage
+        ) {
           console.error(`配置文件 ${file} 缺少必要字段，跳过加载`);
           continue;
         }
@@ -132,7 +142,9 @@ export class ConfigLoader {
     if (this.websiteConfigs.size === 0) {
       this.loadWebsiteConfigs();
     }
-    return Array.from(this.websiteConfigs.values()).filter(config => config.enabled !== false);
+    return Array.from(this.websiteConfigs.values()).filter(
+      (config) => config.enabled !== false,
+    );
   }
 
   /**

@@ -1,7 +1,18 @@
-import configLoader from '../config/loader';
-import { IArticleRepository, ICrawlLogRepository, Article, CrawlLog } from './interfaces';
-import { PostgresArticleRepository, PostgresCrawlLogRepository } from './postgres-repository';
-import { JsonArticleRepository, JsonCrawlLogRepository } from './json-repository';
+import configLoader from "../config/loader";
+import {
+  IArticleRepository,
+  ICrawlLogRepository,
+  Article,
+  CrawlLog,
+} from "./interfaces";
+import {
+  PostgresArticleRepository,
+  PostgresCrawlLogRepository,
+} from "./postgres-repository";
+import {
+  JsonArticleRepository,
+  JsonCrawlLogRepository,
+} from "./json-repository";
 
 // Re-export interfaces
 export { Article, CrawlLog, IArticleRepository, ICrawlLogRepository };
@@ -12,7 +23,7 @@ export { Article, CrawlLog, IArticleRepository, ICrawlLogRepository };
 export class RepositoryFactory {
   static getArticleRepository(): IArticleRepository {
     const config = configLoader.getAppConfig();
-    if (config.storageType === 'json') {
+    if (config.storageType === "json") {
       return new JsonArticleRepository();
     }
     return new PostgresArticleRepository();
@@ -20,7 +31,7 @@ export class RepositoryFactory {
 
   static getCrawlLogRepository(): ICrawlLogRepository {
     const config = configLoader.getAppConfig();
-    if (config.storageType === 'json') {
+    if (config.storageType === "json") {
       return new JsonCrawlLogRepository();
     }
     return new PostgresCrawlLogRepository();

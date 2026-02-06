@@ -1,6 +1,6 @@
-import axios, { AxiosInstance } from 'axios';
-import { Article } from '../database/repository';
-import configLoader from '../config/loader';
+import axios, { AxiosInstance } from "axios";
+import { Article } from "../database/repository";
+import configLoader from "../config/loader";
 
 /**
  * Qwen Flash API响应类型
@@ -33,14 +33,14 @@ export class AIService {
     this.model = appConfig.qwen.model;
 
     if (!this.apiKey) {
-      console.warn('Qwen API Key未配置，AI摘要功能将被禁用');
+      console.warn("Qwen API Key未配置，AI摘要功能将被禁用");
     }
 
     this.client = axios.create({
       timeout: 60000,
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.apiKey}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.apiKey}`,
       },
     });
   }
@@ -50,12 +50,12 @@ export class AIService {
    */
   public async generateSummary(article: Article): Promise<string | null> {
     if (!this.apiKey) {
-      console.warn('API Key未配置，跳过AI摘要生成');
+      console.warn("API Key未配置，跳过AI摘要生成");
       return null;
     }
 
     if (!article.content) {
-      console.warn('文章内容为空，无法生成摘要');
+      console.warn("文章内容为空，无法生成摘要");
       return null;
     }
 
@@ -67,11 +67,12 @@ export class AIService {
         input: {
           messages: [
             {
-              role: 'system',
-              content: '你是一个专业的新闻摘要助手。请根据给定的新闻文章，生成简洁、准确的摘要。摘要应包含文章的核心信息，字数控制在200-300字之间。',
+              role: "system",
+              content:
+                "你是一个专业的新闻摘要助手。请根据给定的新闻文章，生成简洁、准确的摘要。摘要应包含文章的核心信息，字数控制在200-300字之间。",
             },
             {
-              role: 'user',
+              role: "user",
               content: prompt,
             },
           ],
@@ -90,11 +91,11 @@ export class AIService {
 
       return summary;
     } catch (error: any) {
-      console.error('AI摘要生成失败:', error.response?.data || error.message);
+      console.error("AI摘要生成失败:", error.response?.data || error.message);
 
       // 如果是429错误（限流），等待后重试
       if (error.response?.status === 429) {
-        console.warn('API限流，等待10秒后重试...');
+        console.warn("API限流，等待10秒后重试...");
         await this.sleep(10000);
         return this.generateSummary(article);
       }
@@ -106,7 +107,9 @@ export class AIService {
   /**
    * 批量生成摘要
    */
-  public async generateSummaryBatch(articles: Article[]): Promise<Map<string, string>> {
+  public async generateSummaryBatch(
+    articles: Article[],
+  ): Promise<Map<string, string>> {
     const summaryMap = new Map<string, string>();
 
     for (const article of articles) {
@@ -137,15 +140,16 @@ export class AIService {
     }
 
     if (article.publish_date) {
-      prompt += `发布时间：${article.publish_date.toLocaleString('zh-CN')}\n\n`;
+      prompt += `发布时间：${article.publish_date.toLocaleString("zh-CN")}\n\n`;
     }
 
     // 截取正文前3000字符（避免超过token限制）
-    const content = article.content || '';
-    const truncatedContent = content.length > 3000 ? content.substring(0, 3000) + '...' : content;
+    const content = article.content || "";
+    const truncatedContent =
+      content.length > 3000 ? content.substring(0, 3000) + "..." : content;
 
     prompt += `文章内容：\n${truncatedContent}\n\n`;
-    prompt += '请为这篇文章生成200-300字的摘要：';
+    prompt += "请为这篇文章生成200-300字的摘要：";
 
     return prompt;
   }
@@ -154,7 +158,7 @@ export class AIService {
    * 延迟函数
    */
   private sleep(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   /**
@@ -162,7 +166,7 @@ export class AIService {
    */
   public async testConnection(): Promise<boolean> {
     if (!this.apiKey) {
-      console.warn('API Key未配置');
+      console.warn("API Key未配置");
       return false;
     }
 
@@ -172,8 +176,8 @@ export class AIService {
         input: {
           messages: [
             {
-              role: 'user',
-              content: '测试连接',
+              role: "user",
+              content: "测试连接",
             },
           ],
         },
@@ -182,10 +186,10 @@ export class AIService {
         },
       });
 
-      console.log('Qwen API连接测试成功');
+      console.log("Qwen API连接测试成功");
       return true;
     } catch (error) {
-      console.error('Qwen API连接测试失败:', error);
+      console.error("Qwen API连接测试失败:", error);
       return false;
     }
   }

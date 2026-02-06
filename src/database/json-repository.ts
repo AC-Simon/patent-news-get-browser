@@ -1,10 +1,15 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import { Article, CrawlLog, IArticleRepository, ICrawlLogRepository } from './interfaces';
+import * as fs from "fs";
+import * as path from "path";
+import {
+  Article,
+  CrawlLog,
+  IArticleRepository,
+  ICrawlLogRepository,
+} from "./interfaces";
 
-const DATA_DIR = path.join(process.cwd(), 'data');
-const ARTICLES_FILE = path.join(DATA_DIR, 'articles.json');
-const LOGS_FILE = path.join(DATA_DIR, 'logs.json');
+const DATA_DIR = path.join(process.cwd(), "data");
+const ARTICLES_FILE = path.join(DATA_DIR, "articles.json");
+const LOGS_FILE = path.join(DATA_DIR, "logs.json");
 
 // Helper to ensure dir exists
 function ensureDataDir() {
@@ -18,10 +23,10 @@ function readJson<T>(file: string): T[] {
   ensureDataDir();
   if (!fs.existsSync(file)) return [];
   try {
-    const content = fs.readFileSync(file, 'utf-8');
+    const content = fs.readFileSync(file, "utf-8");
     return JSON.parse(content, (key, value) => {
       // Parse dates
-      if (typeof value === 'string') {
+      if (typeof value === "string") {
         // ISO date with time
         if (/^\d{4}-\d{2}-\d{2}T/.test(value)) {
           return new Date(value);
@@ -41,15 +46,15 @@ function readJson<T>(file: string): T[] {
 
 function formatDate(date: Date): string {
   const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, '0');
-  const d = String(date.getDate()).padStart(2, '0');
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
   return `${y}-${m}-${d}`;
 }
 
 function convertDatesToStrings(obj: any): any {
   if (obj instanceof Date) return formatDate(obj);
   if (Array.isArray(obj)) return obj.map(convertDatesToStrings);
-  if (typeof obj === 'object' && obj !== null) {
+  if (typeof obj === "object" && obj !== null) {
     const newObj: any = {};
     for (const key in obj) {
       newObj[key] = convertDatesToStrings(obj[key]);
@@ -71,12 +76,12 @@ function writeJson<T>(file: string, data: T[]): void {
 export class JsonArticleRepository implements IArticleRepository {
   async existsByUrl(url: string): Promise<boolean> {
     const articles = readJson<Article>(ARTICLES_FILE);
-    return articles.some(a => a.url === url);
+    return articles.some((a) => a.url === url);
   }
-  
+
   async findByUrl(url: string): Promise<Article | null> {
     const articles = readJson<Article>(ARTICLES_FILE);
-    return articles.find(a => a.url === url) || null;
+    return articles.find((a) => a.url === url) || null;
   }
 
   async saveIfNotExists(article: Article): Promise<boolean> {
@@ -90,8 +95,8 @@ export class JsonArticleRepository implements IArticleRepository {
 
   async save(article: Article): Promise<void> {
     const articles = readJson<Article>(ARTICLES_FILE);
-    const index = articles.findIndex(a => a.url === article.url);
-    
+    const index = articles.findIndex((a) => a.url === article.url);
+
     // Assign ID if new
     if (!article.id && index === -1) {
       article.id = Date.now(); // Simple ID generation
@@ -99,20 +104,20 @@ export class JsonArticleRepository implements IArticleRepository {
 
     if (index >= 0) {
       // Update
-      articles[index] = { 
-        ...articles[index], 
-        ...article, 
-        update_date: new Date() 
+      articles[index] = {
+        ...articles[index],
+        ...article,
+        update_date: new Date(),
       };
     } else {
       // Insert
-      articles.push({ 
-        ...article, 
-        created_at: new Date(), 
-        crawl_date: article.crawl_date || new Date() 
+      articles.push({
+        ...article,
+        created_at: new Date(),
+        crawl_date: article.crawl_date || new Date(),
       });
     }
-    
+
     writeJson(ARTICLES_FILE, articles);
     console.log(`文章已保存到本地: ${article.title}`);
   }
@@ -133,7 +138,7 @@ export class JsonArticleRepository implements IArticleRepository {
 
   async updateSummary(url: string, summary: string): Promise<void> {
     const articles = readJson<Article>(ARTICLES_FILE);
-    const index = articles.findIndex(a => a.url === url);
+    const index = articles.findIndex((a) => a.url === url);
     if (index >= 0) {
       articles[index].summary = summary;
       articles[index].update_date = new Date();
@@ -142,11 +147,18 @@ export class JsonArticleRepository implements IArticleRepository {
     }
   }
 
-  async getRecentCrawls(source: string, limit: number = 10): Promise<Article[]> {
+  async getRecentCrawls(
+    source: string,
+    limit: number = 10,
+  ): Promise<Article[]> {
     const articles = readJson<Article>(ARTICLES_FILE);
     return articles
-      .filter(a => a.source === source)
-      .sort((a, b) => new Date(b.crawl_date || 0).getTime() - new Date(a.crawl_date || 0).getTime())
+      .filter((a) => a.source === source)
+      .sort(
+        (a, b) =>
+          new Date(b.crawl_date || 0).getTime() -
+          new Date(a.crawl_date || 0).getTime(),
+      )
       .slice(0, limit);
   }
 
@@ -154,12 +166,15 @@ export class JsonArticleRepository implements IArticleRepository {
     const articles = readJson<Article>(ARTICLES_FILE);
     // Group by source
     const stats: Record<string, number> = {};
-    articles.forEach(a => {
+    articles.forEach((a) => {
       if (source && a.source !== source) return;
       stats[a.source] = (stats[a.source] || 0) + 1;
     });
-    
-    return Object.entries(stats).map(([src, count]) => ({ source: src, count }));
+
+    return Object.entries(stats).map(([src, count]) => ({
+      source: src,
+      count,
+    }));
   }
 }
 
@@ -178,8 +193,12 @@ export class JsonCrawlLogRepository implements ICrawlLogRepository {
   async getRecentLogs(source: string, limit: number = 10): Promise<CrawlLog[]> {
     const logs = readJson<CrawlLog>(LOGS_FILE);
     return logs
-      .filter(l => l.source === source)
-      .sort((a, b) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime())
+      .filter((l) => l.source === source)
+      .sort(
+        (a, b) =>
+          new Date(b.created_at || 0).getTime() -
+          new Date(a.created_at || 0).getTime(),
+      )
       .slice(0, limit);
   }
 }

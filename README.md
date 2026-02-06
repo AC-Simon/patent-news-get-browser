@@ -160,53 +160,53 @@ npm run dev schedule
 
 ### 配置说明
 
-| 字段 | 说明 | 必填 |
-|------|------|------|
-| `name` | 网站名称 | 是 |
-| `baseUrl` | 网站基础URL | 是 |
-| `url` | 列表页URL | 是 |
-| `listPage.articleSelector` | 文章列表项选择器 | 是 |
-| `listPage.titleSelector` | 标题选择器 | 否 |
-| `listPage.linkSelector` | 链接选择器 | 是 |
-| `listPage.dateSelector` | 日期选择器 | 否 |
-| `detailPage.titleSelector` | 详情页标题选择器 | 是 |
-| `detailPage.contentSelector` | 详情页正文选择器 | 是 |
-| `detailPage.useReadability` | 是否使用Readability提取 | 否 |
-| `pagination.enabled` | 是否启用分页 | 否 |
-| `pagination.maxPages` | 最大页数 | 否 |
-| `pagination.urlPattern` | 分页URL模式 | 否 |
-| `delay` | 请求延迟（毫秒） | 否 |
-| `enabled` | 是否启用该网站 | 否 |
+| 字段                         | 说明                    | 必填 |
+| ---------------------------- | ----------------------- | ---- |
+| `name`                       | 网站名称                | 是   |
+| `baseUrl`                    | 网站基础URL             | 是   |
+| `url`                        | 列表页URL               | 是   |
+| `listPage.articleSelector`   | 文章列表项选择器        | 是   |
+| `listPage.titleSelector`     | 标题选择器              | 否   |
+| `listPage.linkSelector`      | 链接选择器              | 是   |
+| `listPage.dateSelector`      | 日期选择器              | 否   |
+| `detailPage.titleSelector`   | 详情页标题选择器        | 是   |
+| `detailPage.contentSelector` | 详情页正文选择器        | 是   |
+| `detailPage.useReadability`  | 是否使用Readability提取 | 否   |
+| `pagination.enabled`         | 是否启用分页            | 否   |
+| `pagination.maxPages`        | 最大页数                | 否   |
+| `pagination.urlPattern`      | 分页URL模式             | 否   |
+| `delay`                      | 请求延迟（毫秒）        | 否   |
+| `enabled`                    | 是否启用该网站          | 否   |
 
 ## 数据库结构
 
 ### articles 表
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| id | SERIAL | 主键 |
-| title | VARCHAR(1000) | 文章标题 |
-| url | VARCHAR(2000) | 文章链接（唯一） |
-| source | VARCHAR(200) | 来源网站 |
-| content | TEXT | 文章正文 |
-| summary | TEXT | AI生成的摘要 |
-| author | VARCHAR(200) | 作者 |
-| publish_date | TIMESTAMP | 发布日期 |
-| crawl_date | TIMESTAMP | 爬取日期 |
-| update_date | TIMESTAMP | 更新日期 |
+| 字段         | 类型          | 说明             |
+| ------------ | ------------- | ---------------- |
+| id           | SERIAL        | 主键             |
+| title        | VARCHAR(1000) | 文章标题         |
+| url          | VARCHAR(2000) | 文章链接（唯一） |
+| source       | VARCHAR(200)  | 来源网站         |
+| content      | TEXT          | 文章正文         |
+| summary      | TEXT          | AI生成的摘要     |
+| author       | VARCHAR(200)  | 作者             |
+| publish_date | TIMESTAMP     | 发布日期         |
+| crawl_date   | TIMESTAMP     | 爬取日期         |
+| update_date  | TIMESTAMP     | 更新日期         |
 
 ### crawl_logs 表
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| id | SERIAL | 主键 |
-| source | VARCHAR(200) | 来源网站 |
-| status | VARCHAR(50) | 状态 |
-| articles_found | INTEGER | 发现文章数 |
-| articles_saved | INTEGER | 保存文章数 |
-| error_message | TEXT | 错误信息 |
-| start_time | TIMESTAMP | 开始时间 |
-| end_time | TIMESTAMP | 结束时间 |
+| 字段           | 类型         | 说明       |
+| -------------- | ------------ | ---------- |
+| id             | SERIAL       | 主键       |
+| source         | VARCHAR(200) | 来源网站   |
+| status         | VARCHAR(50)  | 状态       |
+| articles_found | INTEGER      | 发现文章数 |
+| articles_saved | INTEGER      | 保存文章数 |
+| error_message  | TEXT         | 错误信息   |
+| start_time     | TIMESTAMP    | 开始时间   |
+| end_time       | TIMESTAMP    | 结束时间   |
 
 ## 项目结构
 

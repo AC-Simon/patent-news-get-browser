@@ -1,5 +1,10 @@
-import { Database } from './connection';
-import { Article, CrawlLog, IArticleRepository, ICrawlLogRepository } from './interfaces';
+import { Database } from "./connection";
+import {
+  Article,
+  CrawlLog,
+  IArticleRepository,
+  ICrawlLogRepository,
+} from "./interfaces";
 
 /**
  * PostgreSQL文章Repository实现
@@ -12,12 +17,18 @@ export class PostgresArticleRepository implements IArticleRepository {
   }
 
   async existsByUrl(url: string): Promise<boolean> {
-    const result = await this.db.query('SELECT 1 FROM articles WHERE url = $1 LIMIT 1', [url]);
+    const result = await this.db.query(
+      "SELECT 1 FROM articles WHERE url = $1 LIMIT 1",
+      [url],
+    );
     return (result.rowCount || 0) > 0;
   }
 
   async findByUrl(url: string): Promise<Article | null> {
-    const result = await this.db.query('SELECT * FROM articles WHERE url = $1', [url]);
+    const result = await this.db.query(
+      "SELECT * FROM articles WHERE url = $1",
+      [url],
+    );
     if (result.rows.length === 0) {
       return null;
     }
@@ -68,7 +79,7 @@ export class PostgresArticleRepository implements IArticleRepository {
 
     const client = await this.db.getClient();
     try {
-      await client.query('BEGIN');
+      await client.query("BEGIN");
 
       for (const article of articles) {
         const exists = await this.existsByUrl(article.url);
@@ -78,11 +89,11 @@ export class PostgresArticleRepository implements IArticleRepository {
         }
       }
 
-      await client.query('COMMIT');
+      await client.query("COMMIT");
       console.log(`批量保存完成，成功保存 ${savedCount} 篇文章`);
     } catch (error) {
-      await client.query('ROLLBACK');
-      console.error('批量保存失败:', error);
+      await client.query("ROLLBACK");
+      console.error("批量保存失败:", error);
       throw error;
     } finally {
       client.release();
@@ -92,12 +103,16 @@ export class PostgresArticleRepository implements IArticleRepository {
   }
 
   async updateSummary(url: string, summary: string): Promise<void> {
-    const query = 'UPDATE articles SET summary = $1, update_date = CURRENT_TIMESTAMP WHERE url = $2';
+    const query =
+      "UPDATE articles SET summary = $1, update_date = CURRENT_TIMESTAMP WHERE url = $2";
     await this.db.query(query, [summary, url]);
     console.log(`文章摘要已更新: ${url}`);
   }
 
-  async getRecentCrawls(source: string, limit: number = 10): Promise<Article[]> {
+  async getRecentCrawls(
+    source: string,
+    limit: number = 10,
+  ): Promise<Article[]> {
     const query = `
       SELECT * FROM articles
       WHERE source = $1
@@ -105,18 +120,18 @@ export class PostgresArticleRepository implements IArticleRepository {
       LIMIT $2
     `;
     const result = await this.db.query(query, [source, limit]);
-    return result.rows.map(row => this.mapRowToArticle(row));
+    return result.rows.map((row) => this.mapRowToArticle(row));
   }
 
   async getStats(source?: string): Promise<any> {
-    let query = 'SELECT source, COUNT(*) as count FROM articles';
+    let query = "SELECT source, COUNT(*) as count FROM articles";
     let params: any[] = [];
 
     if (source) {
-      query += ' WHERE source = $1 GROUP BY source';
+      query += " WHERE source = $1 GROUP BY source";
       params.push(source);
     } else {
-      query += ' GROUP BY source';
+      query += " GROUP BY source";
     }
 
     const result = await this.db.query(query, params);

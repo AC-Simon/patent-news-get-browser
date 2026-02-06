@@ -1,6 +1,6 @@
-import { Pool, PoolClient, QueryResult } from 'pg';
-import { DatabaseConfig } from '../config/types';
-import configLoader from '../config/loader';
+import { Pool, PoolClient, QueryResult } from "pg";
+import { DatabaseConfig } from "../config/types";
+import configLoader from "../config/loader";
 
 /**
  * 数据库连接管理类
@@ -21,8 +21,8 @@ export class Database {
       connectionTimeoutMillis: 2000,
     });
 
-    this.pool.on('error', (err) => {
-      console.error('数据库池意外错误:', err);
+    this.pool.on("error", (err) => {
+      console.error("数据库池意外错误:", err);
     });
   }
 
@@ -45,10 +45,10 @@ export class Database {
     try {
       const res = await this.pool.query(text, params);
       const duration = Date.now() - start;
-      console.log('执行查询', { text, duration, rows: res.rowCount });
+      console.log("执行查询", { text, duration, rows: res.rowCount });
       return res;
     } catch (error) {
-      console.error('查询执行失败:', error);
+      console.error("查询执行失败:", error);
       throw error;
     }
   }
@@ -66,7 +66,7 @@ export class Database {
    */
   public async close(): Promise<void> {
     await this.pool.end();
-    console.log('数据库连接池已关闭');
+    console.log("数据库连接池已关闭");
   }
 
   /**
@@ -74,11 +74,11 @@ export class Database {
    */
   public async testConnection(): Promise<boolean> {
     try {
-      const result = await this.query('SELECT NOW()');
-      console.log('数据库连接测试成功:', result.rows[0]);
+      const result = await this.query("SELECT NOW()");
+      console.log("数据库连接测试成功:", result.rows[0]);
       return true;
     } catch (error) {
-      console.error('数据库连接测试失败:', error);
+      console.error("数据库连接测试失败:", error);
       return false;
     }
   }
