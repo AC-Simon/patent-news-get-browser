@@ -1,6 +1,6 @@
-# 通用新闻爬虫系统
+# 通用新闻爬虫系统 (Patent News Crawler)
 
-一个功能强大、配置驱动的通用新闻爬虫系统，支持多网站爬取、AI内容摘要、PostgreSQL存储和定时任务。
+一个功能强大、配置驱动的通用新闻爬虫系统，获取汽车相关技术，支持多网站爬取、AI内容摘要、PostgreSQL存储和定时任务。
 
 ## 功能特性
 
@@ -27,7 +27,8 @@
 ### 1. 克隆项目
 
 ```bash
-cd get-browser
+git clone https://github.com/AC-Simon/patent-news-get-browser.git
+cd patent-news-get-browser
 ```
 
 ### 2. 安装依赖
